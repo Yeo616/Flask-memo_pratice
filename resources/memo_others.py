@@ -110,7 +110,7 @@ class MemoResource(Resource) : # 메모 조회, 업데이트/수정, 삭제
         return {'result' :'success'}, 200
 
 #-------------------------------------------------
-#           삭제하는 delete 함수
+#               삭제하는 delete
 #-------------------------------------------------
 
     def delete(self, memo_id) :

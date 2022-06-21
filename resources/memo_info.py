@@ -5,7 +5,7 @@ from mysql.connector.errors import Error
 from mysql_connection import get_connection
 import mysql.connector
 
-class MemoCreateResource(Resource) :
+class MemoCreateResource(Resource) : # 메모 생성, 메모 조회
  
 # --------------------------------------------
 #                 메모 생성
@@ -55,7 +55,7 @@ class MemoCreateResource(Resource) :
         return {"result":"success"},200
 
 # -------------------------------------------
-#           메모 조회
+#                메모 조회
 # -------------------------------------------
     def get(self):
         offset = request.args.get('offset')

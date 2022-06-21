@@ -5,6 +5,7 @@ from config import Config
 from resources.memo_info import MemoCreateResource
 from resources.memo_others import MemoResource
 from resources.memo_publish import MemoPublishResource
+from resources.memo_share import MemoShaereResource
 from resources.user import UserLoginResource, UserLogoutResource, UserRegisterResource
 
 app = Flask(__name__)
@@ -34,6 +35,8 @@ api.add_resource(MemoResource,'/memo/<int:memo_id>')
 # 메모 조회, 업데이트/수정, 삭제
 api.add_resource(MemoPublishResource,'/memo/<int:memo_id>/publish') 
 # 메모 공개, 임시저장 
+api.add_resource(MemoShaereResource,'/friends/view')
+# 친구 생성/맺기, 
 
 if __name__ == '__main__':
     app.run()
