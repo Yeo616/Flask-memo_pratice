@@ -38,7 +38,7 @@ api.add_resource(MemoPublishResource,'/memo/<int:memo_id>/publish')
 api.add_resource(MemoMakeFriendsResource,'/friends')
 # 친구 생성/맺기, 조회
 api.add_resource(FriendsMemoResource,'/friends/<int:user_id>/view')
-# 친구 조회
+# 친구 메모 조회
 
 
 if __name__ == '__main__':

@@ -101,10 +101,10 @@ class MemoMakeFriendsResource(Resource) : # 친구 생성, 조회
         return { "result" : "success" , 
                 "count" : len(result_list)}, 200
 
-class FriendsMemoResource(Resource): # 친구 조회하기
+class FriendsMemoResource(Resource): # 친구 메모 조회하기
  
 # -------------------------------------------
-#                친구 조회
+#                친구 메모 조회
 # -------------------------------------------
     def get(self,user_id):
         offset = request.args.get('offset')
@@ -113,11 +113,13 @@ class FriendsMemoResource(Resource): # 친구 조회하기
         try :
             connection = get_connection()
 
-            query = '''select *
-                       from follows f
-                       join user u 
-                            on f.followee_id = u.id
-                        where f.follower_id = %s;'''
+            query = '''select u.email, u.user_name, m.content, m.date
+                        from follows f
+                        join memo m 
+                            on f.followee_id = m.user_id
+                        join user u
+                            on m.user_id = u.id 
+                        where follower_id = %s;'''
             record = (user_id, )
 
             cursor = connection.cursor(dictionary = True)
@@ -129,7 +131,7 @@ class FriendsMemoResource(Resource): # 친구 조회하기
 
             i = 0
             for record in result_list :
-                result_list[i]['created_at'] = record['created_at'].isoformat()
+                result_list[i]['date'] = record['date'].isoformat()
                 i = i + 1             
                 
             cursor.close()
@@ -142,5 +144,5 @@ class FriendsMemoResource(Resource): # 친구 조회하기
             return {"error" : str(e)}, 503
 
         return { "result" : "success" , 
-                "count" : len(result_list)}, 200
+                "friends memo" : result_list}, 200
 
