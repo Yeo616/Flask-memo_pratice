@@ -29,8 +29,11 @@ api.add_resource(UserLogoutResource, '/users/logout')
 
 
 api.add_resource(MemoCreateResource,'/memo/view') 
-api.add_resource(MemoResource,'/memo/<int:recipe_id>')
-api.add_resource(MemoPublishResource,'/memo/<int:recipe_id>/publish') 
+# 메모 생성, 메모 조회
+api.add_resource(MemoResource,'/memo/<int:memo_id>')
+# 메모 조회, 업데이트/수정, 삭제
+api.add_resource(MemoPublishResource,'/memo/<int:memo_id>/publish') 
+# 메모 공개, 임시저장 
 
 if __name__ == '__main__':
     app.run()

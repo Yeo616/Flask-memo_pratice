@@ -92,6 +92,5 @@ class MemoCreateResource(Resource) :
             return {"error" : str(e)}, 503
 
         return { "result" : "success" , 
-                "count" : len(result_list) ,
-                "result_list" : result_list }, 200
+                "count" : len(result_list)}, 200
 

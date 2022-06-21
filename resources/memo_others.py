@@ -7,7 +7,7 @@ from mysql.connector.errors import Error
 from mysql_connection import get_connection
 import mysql.connector
 
-class MemoResource(Resource) :
+class MemoResource(Resource) : # 메모 조회, 업데이트/수정, 삭제
     
     def get(self, memo_id) :
 
@@ -57,7 +57,7 @@ class MemoResource(Resource) :
             # 1. DB에 연결
             connection = get_connection()
 
-            ### 먼저 recipe_id에 들어있는 user_id가 이 사람인지 먼저 확인한다.
+            ### 먼저 memo_id에 들어있는 user_id가 이 사람인지 먼저 확인한다.
 
             query = '''select user_id
                         from memo
@@ -73,16 +73,16 @@ class MemoResource(Resource) :
                 connection.close()
                 return{'error':'메모 아이디가 잘못되었습니다.'},400
 
-            recipe = result_lsit[0] # 메모
+            memo = result_lsit[0] # 메모
 
-            if recipe['user_id'] != user_id:
+            if memo['user_id'] != user_id:
                 cursor.close()
                 connection.close()
                 return{'error':'타인의 메모를 수정할 수 없습니다.'},401
                 # 401: 인증이 잘못된거다 라는 뜻.
 
             # 2. 쿼리문 만들기
-            query = '''update recipe
+            query = '''update memo
                     set title = %s , date = %s , 
                     content = %s
                     where id = %s ;'''
@@ -114,13 +114,7 @@ class MemoResource(Resource) :
 #-------------------------------------------------
 
     def delete(self, memo_id) :
-    #    {
-    #         "title": "오전 미팅 주제",
-    #         "date": "2022-02-22",
-    #         "content": " 어댑터 만들어서 어쩌고 저쩌고 동해물과 백두산이 어쩌고.."
-
-    #     }
-       
+      
         try :
             # 데이터 삭제
             # 1. DB에 연결

@@ -6,11 +6,11 @@ from mysql_connection import get_connection
 import mysql.connector
 
 
-class MemoPublishResource(Resource): # 레시피 공개, 
+class MemoPublishResource(Resource): # 메모 공개, 임시저장 
 
-    def put(self, recipe_id):
+    def put(self, memo_id):
        
-        # 해당 레시피 아이디를 가지고, 데이터베이스에서 publish 컬럼을 1로 바꿔준다. 
+        # 해당 메모 아이디를 가지고, 데이터베이스에서 publish 컬럼을 1로 바꿔준다. 
         try :
             # 1. DB에 연결
             connection = get_connection()
@@ -18,7 +18,7 @@ class MemoPublishResource(Resource): # 레시피 공개,
             query = ''' update memo
                         set is_publish = 1
                         where id = %s;'''        
-            record = (recipe_id, )
+            record = (memo_id, )
             # 3. 커서를 가져온다.
             cursor = connection.cursor()
             # 4. 쿼리문을 커서를 이용해서 실행한다.
