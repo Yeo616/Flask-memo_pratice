@@ -11,7 +11,7 @@ import mysql.connector
 # 친구 끊기
 
 
-class MemoShaereResource(Resource) :
+class MemoMakeFriendsResource(Resource) : # 친구 생성, 조회
     
 # -------------------------------
 #         친구 생성하기
@@ -64,40 +64,83 @@ class MemoShaereResource(Resource) :
 # -------------------------------------------
 #                친구 조회
 # -------------------------------------------
-    # def get(self):
-    #     offset = request.args.get('offset')
-    #     limit = request.args.get('limit')
+    def get(self):
+        offset = request.args.get('offset')
+        limit = request.args.get('limit')
 
-    #     try :
-    #         connection = get_connection()
+        try :
+            connection = get_connection()
 
-    #         query = '''select *
-    #                 from follows f
-    #                 join user u
-    #                     on f.followee_id = u.id
-    #                 where f.followee_id =1;'''
+            query = '''select *
+                    from follows f
+                    join user u
+                        on f.followee_id = u.id
+                    where f.followee_id =1;'''
 
-    #         cursor = connection.cursor(dictionary = True)
-    #         cursor.execute(query)
+            cursor = connection.cursor(dictionary = True)
+            cursor.execute(query)
 
-    #         result_list = cursor.fetchall()
+            result_list = cursor.fetchall()
 
-    #         print(result_list)
+            print(result_list)
 
-    #         i = 0
-    #         for record in result_list :
-    #             result_list[i]['created_at'] = record['created_at'].isoformat()
-    #             i = i + 1             
+            i = 0
+            for record in result_list :
+                result_list[i]['created_at'] = record['created_at'].isoformat()
+                i = i + 1             
                 
-    #         cursor.close()
-    #         connection.close()
+            cursor.close()
+            connection.close()
 
-    #     except mysql.connector.Error as e :
-    #         print(e)
-    #         cursor.close()
-    #         connection.close()
-    #         return {"error" : str(e)}, 503
+        except mysql.connector.Error as e :
+            print(e)
+            cursor.close()
+            connection.close()
+            return {"error" : str(e)}, 503
 
-    #     return { "result" : "success" , 
-    #             "count" : len(result_list)}, 200
+        return { "result" : "success" , 
+                "count" : len(result_list)}, 200
+
+class FriendsMemoResource(Resource): # 친구 조회하기
+ 
+# -------------------------------------------
+#                친구 조회
+# -------------------------------------------
+    def get(self,user_id):
+        offset = request.args.get('offset')
+        limit = request.args.get('limit')
+
+        try :
+            connection = get_connection()
+
+            query = '''select *
+                       from follows f
+                       join user u 
+                            on f.followee_id = u.id
+                        where f.follower_id = %s;'''
+            record = (user_id, )
+
+            cursor = connection.cursor(dictionary = True)
+            cursor.execute(query,record)
+
+            result_list = cursor.fetchall()
+
+            print(result_list)
+
+            i = 0
+            for record in result_list :
+                result_list[i]['created_at'] = record['created_at'].isoformat()
+                i = i + 1             
+                
+            cursor.close()
+            connection.close()
+
+        except mysql.connector.Error as e :
+            print(e)
+            cursor.close()
+            connection.close()
+            return {"error" : str(e)}, 503
+
+        return { "result" : "success" , 
+                "count" : len(result_list)}, 200
 
