@@ -2,8 +2,9 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
 from config import Config
-from resources.memo_list import MemoListResource
-from resources.memo_info import MemoResource
+from resources.memo_info import MemoCreateResource
+from resources.memo_others import MemoResource
+from resources.memo_publish import MemoPublishResource
 from resources.user import UserLoginResource, UserLogoutResource, UserRegisterResource
 
 app = Flask(__name__)
@@ -27,8 +28,9 @@ api.add_resource(UserLoginResource,'/users/login')
 api.add_resource(UserLogoutResource, '/users/logout')
 
 
-api.add_resource(MemoResource,'/memo/<int:recipe_id>') 
-api.add_resource(MemoListResource,'/memo')
+api.add_resource(MemoCreateResource,'/memo/view') 
+api.add_resource(MemoResource,'/memo/<int:recipe_id>')
+api.add_resource(MemoPublishResource,'/memo/<int:recipe_id>/publish') 
 
 if __name__ == '__main__':
     app.run()

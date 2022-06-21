@@ -8,7 +8,7 @@ from mysql_connection import get_connection
 import mysql.connector
 from mysql_connection import get_connection
 
-# --------------메모 생성---------------
+# --------------메모 생성---------------(안됨)
 class MemoListResource(Resource):
     @ jwt_required()
 
